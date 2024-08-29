@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poll App</title>
+</head>
+
+<body>
+    <h1>Poll App</h1>
+    <button id="answerPoll">Answer poll</button>
+
+    <script>
+        const poll = {
+                question: 'What is your favourite programming language?',
+                options: ['JavaScript', 'Python', 'Rust', 'C++'],
+                answers: new Array(4).fill(0),
+
+                registerNewAnswer() {
+                    // Prompt user for their choice
+                    const input = prompt(`${this.question}\n${this.options.map((opt, i) => `${i}: ${opt}`).join('\n')}\n(Write option number)`);
+        
+        // Convert input to a number
+        const answer = Number(input);
+        
+        // Validate input and update answers array
+        if (Number.isInteger(answer) && answer >= 0 && answer < this.options.length) {
+          this.answers[answer]++;
+          this.displayResults(); // Display results in default format (array)
+        } else {
+          console.log('Invalid input. Please enter a valid option number.');
+        }
+      },
+
+      displayResults(type = 'array') {
+        if (type === 'string') {
+          console.log(`Poll results are ${this.answers.join(', ')}`);
+        } else {
+          console.log(this.answers);
+        }
+      }
+    };
+
+    // Attach event listener to button
+    document.getElementById('answerPoll').addEventListener('click', () => {
+      poll.registerNewAnswer();
+    });
+
+    // Bonus: Display results for given test data
+    const testData1 = [5, 2, 3];
+    const testData2 = [1, 5, 3, 9, 6, 1];
+    
+    console.log('Test Data 1:');
+    poll.displayResults.call({ answers: testData1 }, 'array');
+    poll.displayResults.call({ answers: testData1 }, 'string');
+
+    console.log('Test Data 2:');
+    poll.displayResults.call({ answers: testData2 }, 'array');
+    poll.displayResults.call({ answers: testData2 }, 'string');
+    </script>
+</body>
+
+</html>

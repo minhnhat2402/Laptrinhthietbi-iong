@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variable Name Converter</title>
+    <style>
+        textarea {
+            width: 300px;
+            height: 150px;
+        }
+        
+        button {
+            display: block;
+            margin-top: 10px;
+        }
+        
+        pre {
+            font-family: monospace;
+            white-space: pre-wrap;
+            /* To maintain line breaks in output */
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Variable Name Converter</h1>
+    <textarea id="input" placeholder="Enter variable names here, each on a new line..."></textarea>
+    <button id="convert">Convert to camelCase</button>
+    <pre id="output"></pre>
+
+    <script>
+        document.getElementById('convert').addEventListener('click', function() {
+            // Get the input from the textarea
+            const input = document.getElementById('input').value;
+            // Split the input into lines
+            const lines = input.split('\n');
+
+            // Function to convert from underscore_case to camelCase
+            function toCamelCase(variable) {
+                return variable
+                    .toLowerCase()
+                    .split('_')
+                    .map((word, index) => index === 0 ? word : word.charAt(0).toUpperCase() + word.slice(1))
+                    .join('');
+            }
+
+            // Process each line and generate output
+            const output = lines.map(line => {
+                const trimmedLine = line.trim();
+                if (trimmedLine) {
+                    const camelCase = toCamelCase(trimmedLine);
+                    const checks = '✅'.repeat(camelCase.length);
+                    return `${camelCase} ${checks}`;
+                }
+                return '';
+            }).join('\n');
+
+            // Display the output in the pre element
+            document.getElementById('output').textContent = output;
+        });
+    </script>
+</body>
+
+</html>
